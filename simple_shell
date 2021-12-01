@@ -1,0 +1,15 @@
+.TH SHELL 1 "30 Nov 2021" "1.0" "simple_shell man page"
+.SH NAME
+simple_shell \- command line interpreter
+.SH SYNOPSIS
+.B ./hsh
+.SH DESCRIPTION
+This program is a simple shell that has been made by the Holberton guidelines. It contains basic features and functions found in other shell programs.
+.SH OPTIONS
+Waiting on entry
+.SH SEE ALSO
+Waiting on entry
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Jhonathan Rivera Cruz, Gabriel Lopez Ruiz
