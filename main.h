@@ -8,6 +8,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define MAXLETTERS 1000
-#define MAXCOMMANDS 100
+char *_read_line(void);
+char **_split_line(char *line);
+int _execute(char **args);
+int _launch(char **args);
 #endif
