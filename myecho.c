@@ -1,48 +1,53 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "main.h"
 
-int main(void)
+int launch(char **args)
 {
-	/*
-	   int j;
-
-	   for (j = 0; j < argc; j++)
-	   printf("argv[%d]: %s\n", j, argv[j]);
-
-	   exit(EXIT_SUCCESS);
-	   */
-
-
-	char  *argv[] = {"/bin/ls", "-l", "/tmp", NULL};
-	int i;
 	int status;
+	pid_t pid = fork();
 
-	
-	for(i = 0; i < 5; i++)
+	if (pid == -1)
 	{
-		pid_t pid = fork();
+		printf("\nFailed forking child..");
+		return(1);
+	}
+	else if (pid == 0)
+	{
 
-		if (pid == -1)
+	if (execve(args[0], args, NULL) == -1)
 		{
-			printf("\nFailed forking child..");
-			return(1);
-		}
-		else if (pid == 0)
-		{
-			if (execve(argv[0], argv, NULL) == -1)
-			{
-				perror("Error:");
-			}
-		}
-		else
-		{
-			wait(&status);
-			printf("%u\n", pid);
+			perror("Error:");
 		}
 	}
+	else
+	{
+		wait(&status);
+		printf("%u\n", pid);
+	}
+	return (1);
+}
+int main(int argc, char *argv[])
+{
+	char *b;
+	char *token;
+	size_t bufsize = argc;
+	const char s[2] = " ";
 
+	b = malloc(sizeof(char *) * argc);
+
+	printf("$ ");
+
+	getline(&b, &bufsize, stdin);
+
+	launch(&b);
+
+
+	token = strtok(b, s);
+	
+
+	while(token != NULL)
+	{
+		/*printf("%s\n", token);*/
+		token = strtok(NULL, s);
+	}
 	return (0);
 }

@@ -1,10 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "main.h"
 
 int main(int argc, char *argv[])
 {
-	char *newargv[];
+	char *newargv[] = {NULL};
 	char *newenviron[] = { NULL };
 
 	if (argc != 2) {
