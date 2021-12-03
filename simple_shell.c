@@ -1,6 +1,6 @@
 #include "main.h"
 
-/*
+/**
  * main - Entry point
  * Return: Success
  */
@@ -21,7 +21,7 @@ int main(void)
 	return (EXIT_SUCCESS);
 }
 
-/*
+/**
  * _read_line - gets input from the user
  * Return: string with the input
  */
@@ -61,7 +61,7 @@ char *_read_line(void)
 	}
 }
 
-/*
+/**
  * _split_line - splits the string into tokens
  * @line: string to be splitted
  * Return: pointer to the divided string
@@ -98,7 +98,7 @@ char **_split_line(char *line)
 	return (tokens);
 }
 
-/*
+/**
  * _execute - checks for errors before launching the command
  * @args: string with commands
  * Return: 1 if launch was success
@@ -120,7 +120,7 @@ int _execute(char **args)
 	return (_launch(args));
 }
 
-/*
+/**
  * _launch - launches the command
  * @args: string with commands
  * Return: 1 success
