@@ -6,35 +6,58 @@ int main(int argc, char **argv)
 	char **args;
 	int status;
 
-	do {
+    do {
 		printf("$ ");
 		line = _read_line();
 		args = _split_line(line);
 		status = _execute(args);
 		free(line);
 		free(args);
-	} while (status);
+	} while(status);
 	return EXIT_SUCCESS;
 }
 
 char *_read_line(void)
 {
-	char *line = NULL;
-	size_t bufsize = 0;
+	int bufsize = 100;
+	int position = 0;
+	char *buffer;
+	int c;
 
-	if (getline(&line, &bufsize, stdin) == -1)
+	buffer = malloc(sizeof(char) * bufsize);
+	if (!buffer)
+		exit(EXIT_FAILURE);
+
+	while (1)
 	{
-		if (feof(stdin))
+		c = getchar();
+
+		if (c == EOF)
 		{
-			exit(EXIT_SUCCESS);
+			printf("\n");
+			exit(EXIT_FAILURE);
+		}
+		else if(c == '\n')
+		{
+			buffer[position] = '\0';
+			return (buffer);
 		}
 		else
 		{
-			perror("readline");
-			exit(EXIT_FAILURE);
+			buffer[position] = c;
+		}
+		position++;
+
+		if (position >= bufsize)
+		{
+			bufsize += 100 ;
+			buffer = realloc(buffer, bufsize);
+			if (!buffer)
+			{
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
-	return (line);
 }
 
 char **_split_line(char *line)
@@ -75,6 +98,9 @@ int _execute(char **args)
 
 	if (args[0] == NULL)
 		return (1);
+	else if(strcmp(args[0], "exit") == 0)
+		exit(EXIT_SUCCESS);
+
 	return (_launch(args));
 }
 
@@ -86,7 +112,7 @@ int _launch(char **args)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(args[0], args) == -1, NULL)
+		if (execvp(args[0], args) == -1, NULL)
 			perror("launch");
 		exit(EXIT_FAILURE);
 	}
@@ -95,7 +121,8 @@ int _launch(char **args)
 	else
 	{
 		do {
-			wpid = waitpid(pid, &status, WUNTRACED);
+
+			wpid = waitpid(pid, &status, WNOHANG);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (1);
