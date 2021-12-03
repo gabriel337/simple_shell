@@ -1,22 +1,30 @@
 #include "main.h"
 
-int main(int argc, char **argv)
+/*
+ * main - Entry point
+ * Return: Success
+ */
+int main(void)
 {
 	char *line;
 	char **args;
 	int status;
 
-    do {
+	do {
 		printf("$ ");
 		line = _read_line();
 		args = _split_line(line);
 		status = _execute(args);
 		free(line);
 		free(args);
-	} while(status);
-	return EXIT_SUCCESS;
+	} while (status);
+	return (EXIT_SUCCESS);
 }
 
+/*
+ * _read_line - gets input from the user
+ * Return: string with the input
+ */
 char *_read_line(void)
 {
 	int bufsize = 100;
@@ -27,40 +35,37 @@ char *_read_line(void)
 	buffer = malloc(sizeof(char) * bufsize);
 	if (!buffer)
 		exit(EXIT_FAILURE);
-
 	while (1)
 	{
 		c = getchar();
-
 		if (c == '\n')
 		{
 			buffer[position] = '\0';
 			return (buffer);
 		}
-
 		else if (c == EOF)
 		{
 			printf("\n");
 			exit(EXIT_SUCCESS);
 		}
 		else
-		{
 			buffer[position] = c;
-		}
 		position++;
-
 		if (position >= bufsize)
 		{
-			bufsize += 100 ;
+			bufsize += 100;
 			buffer = realloc(buffer, bufsize);
 			if (!buffer)
-			{
 				exit(EXIT_FAILURE);
-			}
 		}
 	}
 }
 
+/*
+ * _split_line - splits the string into tokens
+ * @line: string to be splitted
+ * Return: pointer to the divided string
+ */
 char **_split_line(char *line)
 {
 	int bufsize = 64, position = 0;
@@ -93,6 +98,11 @@ char **_split_line(char *line)
 	return (tokens);
 }
 
+/*
+ * _execute - checks for errors before launching the command
+ * @args: string with commands
+ * Return: 1 if launch was success
+ */
 int _execute(char **args)
 {
 	int i;
@@ -101,7 +111,7 @@ int _execute(char **args)
 	if (args[0] == NULL)
 		return (1);
 	else if (strcmp(args[0], "exit") == 0)
-		exit(EXIT_SUCCESS); /*maybe take off*/
+		exit(EXIT_SUCCESS);
 	else if (stat(*args, &st) == -1)
 	{
 		perror("execute");
@@ -110,9 +120,14 @@ int _execute(char **args)
 	return (_launch(args));
 }
 
+/*
+ * _launch - launches the command
+ * @args: string with commands
+ * Return: 1 success
+ */
 int _launch(char **args)
 {
-	pid_t pid, wpid;
+	pid_t pid;
 	int status;
 
 	pid = fork();
