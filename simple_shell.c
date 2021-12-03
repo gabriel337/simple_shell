@@ -32,15 +32,16 @@ char *_read_line(void)
 	{
 		c = getchar();
 
-		if (c == EOF)
-		{
-			printf("\n");
-			exit(EXIT_FAILURE);
-		}
-		else if(c == '\n')
+		if (c == '\n')
 		{
 			buffer[position] = '\0';
 			return (buffer);
+		}
+
+		else if (c == EOF)
+		{
+			printf("\n");
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{
@@ -99,7 +100,7 @@ int _execute(char **args)
 	if (args[0] == NULL)
 		return (1);
 	else if(strcmp(args[0], "exit") == 0)
-		exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS); /*maybe take off*/
 
 	return (_launch(args));
 }
@@ -113,17 +114,13 @@ int _launch(char **args)
 	if (pid == 0)
 	{
 		if (execvp(args[0], args) == -1, NULL)
-			perror("launch");
+			perror("ERROR");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-		perror("launch");
+		perror("ERROR");
 	else
-	{
-		do {
+		wait(NULL);
 
-			wpid = waitpid(pid, &status, WNOHANG);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
 	return (1);
 }
