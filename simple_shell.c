@@ -96,12 +96,17 @@ char **_split_line(char *line)
 int _execute(char **args)
 {
 	int i;
+	struct stat st;
 
 	if (args[0] == NULL)
 		return (1);
-	else if(strcmp(args[0], "exit") == 0)
+	else if (strcmp(args[0], "exit") == 0)
 		exit(EXIT_SUCCESS); /*maybe take off*/
-
+	else if (stat(*args, &st) == -1)
+	{
+		perror("execute");
+		return (1);
+	}
 	return (_launch(args));
 }
 
@@ -114,11 +119,11 @@ int _launch(char **args)
 	if (pid == 0)
 	{
 		if (execvp(args[0], args) == -1, NULL)
-			perror("ERROR");
+			perror("launch");
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-		perror("ERROR");
+		perror("launch");
 	else
 		wait(NULL);
 
