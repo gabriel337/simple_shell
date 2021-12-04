@@ -11,6 +11,7 @@ int main(void)
 	int status;
 
 	do {
+		/*promt*/
 		printf("$ ");
 		line = _read_line();
 		args = _split_line(line);
@@ -34,15 +35,22 @@ char *_read_line(void)
 
 	buffer = malloc(sizeof(char) * bufsize);
 	if (!buffer)
+	{
+		free(buffer);
 		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
+		/*reading each character*/
 		c = getchar();
+		
 		if (c == '\n')
 		{
 			buffer[position] = '\0';
 			return (buffer);
 		}
+		
+		/*cntrl-d exit*/
 		else if (c == EOF)
 		{
 			printf("\n");
@@ -51,12 +59,17 @@ char *_read_line(void)
 		else
 			buffer[position] = c;
 		position++;
+
+		/*if need more memory space, then add*/
 		if (position >= bufsize)
 		{
 			bufsize += 100;
 			buffer = realloc(buffer, bufsize);
 			if (!buffer)
+			{
+				free(buffer);
 				exit(EXIT_FAILURE);
+			}
 		}
 	}
 }
@@ -70,11 +83,13 @@ char **_split_line(char *line)
 {
 	int bufsize = 64, position = 0;
 	char *token;
-	char **tokens = malloc(bufsize * sizeof(char *));
+	char **tokens;
 
+	tokens = malloc(bufsize * sizeof(char *));
 	if (!tokens)
 	{
 		printf("Error\n");
+		free(tokens);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, " ");
@@ -82,10 +97,13 @@ char **_split_line(char *line)
 	{
 		tokens[position] = token;
 		position++;
+		
+		/* if need more memory space, then add*/
 		if (position >= bufsize)
 		{
 			bufsize += 64;
 			tokens = realloc(tokens, bufsize * sizeof(char *));
+			
 			if (!tokens)
 			{
 				printf("Error\n");
@@ -110,8 +128,20 @@ int _execute(char **args)
 
 	if (args[0] == NULL)
 		return (1);
+
+	/*will stdout environment*/	
+	else if (strcmp(args[0], "printenv") == 0)
+	{
+		/*function to get environment*/
+		get_env();
+		return(1);
+	}
+
+	/*exit program if "exit" is inputed*/
 	else if (strcmp(args[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
+
+	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
 		perror("execute");
@@ -131,16 +161,18 @@ int _launch(char **args)
 	int status;
 
 	pid = fork();
+
 	if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1, NULL)
+		if (execvp(args[0], args) == -1)
 			perror("launch");
 		exit(EXIT_FAILURE);
 	}
+	
 	else if (pid < 0)
 		perror("launch");
 	else
-		wait(NULL);
+		wait(&status);
 
 	return (1);
 }
