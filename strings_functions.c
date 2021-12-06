@@ -50,21 +50,23 @@ int _strcmp(char *s1, char *s2)
 	}
 }
 
+/**
+ * _getchar - gets characters
+ * Return: buffptr
+ */
 int _getchar(void)
 {
-        static char buf[BUFSIZ];
-        static char *bufp = buf;
-        static int i = 0;
+	char buffer[100];
+	char *buffptr = buffer;
+	int readline = 0;
 
-        if (i == 0)
-        {
-                i = read(0, buf, 1);
-                bufp = buf;
-        }
-        if ( --i >= 0 )
-        {
-                return  *bufp++;
-        }
+	if (readline == 0)
+	{
+	readline = read(0, buffer, 1);
+	buffptr = buffer;
+	}
+	if (--readline >= 0)
+		return  (*buffptr++);
 
-        return EOF;
+	return (EOF);
 }

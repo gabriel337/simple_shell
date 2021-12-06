@@ -28,26 +28,46 @@ int main(void)
  */
 char *_read_line(void)
 {
+	int bufsize = 100;
+	int position = 0;
+	char *buffer = malloc(sizeof(char) * bufsize);
+	int c;
 
-  char *line = NULL;
-  int i;
-
-  ssize_t bufsize = 0; /* have getline allocate a buffer for us*/
-
-  if (getline(&line, &bufsize, stdin) == -1)
-  {
-	  if (line[i] == EOF)
-	  {
-		  _putchar('\n');
-		  exit(EXIT_SUCCESS);  /* We received an EOF*/
-	}
-	else
+	if (!buffer)
 	{
-      perror("getline");
-      exit(EXIT_FAILURE);
-    }
-  }
-  return line;
+		perror("readline");
+		exit(EXIT_FAILURE);
+	}
+	while (1)
+	{
+		/* Read a character*/
+		c = _getchar();
+		if (c == EOF)
+		{
+			_puts("logout successful");
+			_putchar('\n');
+			exit(EXIT_SUCCESS);
+		}
+		else if (c == '\n')
+		{
+			buffer[position] = '\0';
+			return (buffer);
+		}
+		else
+			buffer[position] = c;
+		position++;
+		/* If we have exceeded the buffer, reallocate.*/
+		if (position >= bufsize)
+		{
+			bufsize += 100;
+			buffer = realloc(buffer, bufsize);
+			if (!buffer)
+			{
+				perror("readline");
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
 }
 
 /**
@@ -65,7 +85,6 @@ char **_split_line(char *line)
 	if (!tokens)
 	{
 		_puts("Error\n");
-		free(tokens);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, " ");
@@ -73,13 +92,13 @@ char **_split_line(char *line)
 	{
 		tokens[position] = token;
 		position++;
-		
+
 		/* if need more memory space, then add*/
 		if (position >= bufsize)
 		{
 			bufsize += 64;
 			tokens = realloc(tokens, bufsize * sizeof(char *));
-			
+
 			if (!tokens)
 			{
 				perror("Error\n");
@@ -105,12 +124,12 @@ int _execute(char **args)
 	if (args[0] == NULL)
 		return (1);
 
-	/*will stdout environment*/	
+	/*will stdout environment*/
 	else if (strcmp(args[0], "printenv") == 0)
 	{
 		/*function to get environment*/
 		get_env();
-		return(1);
+		return (1);
 	}
 
 	/*exit program if "exit" is inputed*/
@@ -144,7 +163,7 @@ int _launch(char **args)
 			perror("launch");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	else if (pid < 0)
 		perror("launch");
 	else
