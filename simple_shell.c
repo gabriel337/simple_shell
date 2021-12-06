@@ -12,7 +12,7 @@ int main(void)
 
 	do {
 		/*promt*/
-		printf("$ ");
+		write(1, "$ ", 1);
 		line = _read_line();
 		args = _split_line(line);
 		status = _execute(args);
