@@ -12,7 +12,7 @@ int main(void)
 
 	do {
 		/*promt*/
-		write(1, "$ ", 1);
+		_puts("$ ");
 		line = _read_line();
 		args = _split_line(line);
 		status = _execute(args);
@@ -28,50 +28,26 @@ int main(void)
  */
 char *_read_line(void)
 {
-	int bufsize = 100;
-	int position = 0;
-	char *buffer;
-	int c;
 
-	buffer = malloc(sizeof(char) * bufsize);
-	if (!buffer)
-	{
-		free(buffer);
-		exit(EXIT_FAILURE);
-	}
-	while (1)
-	{
-		/*reading each character*/
-		c = getchar();
-		
-		if (c == '\n')
-		{
-			buffer[position] = '\0';
-			return (buffer);
-		}
-		
-		/*cntrl-d exit*/
-		else if (c == EOF)
-		{
-			printf("\n");
-			exit(EXIT_SUCCESS);
-		}
-		else
-			buffer[position] = c;
-		position++;
+  char *line = NULL;
+  int i;
 
-		/*if need more memory space, then add*/
-		if (position >= bufsize)
-		{
-			bufsize += 100;
-			buffer = realloc(buffer, bufsize);
-			if (!buffer)
-			{
-				free(buffer);
-				exit(EXIT_FAILURE);
-			}
-		}
+  ssize_t bufsize = 0; /* have getline allocate a buffer for us*/
+
+  if (getline(&line, &bufsize, stdin) == -1)
+  {
+	  if (line[i] == EOF)
+	  {
+		  _putchar('\n');
+		  exit(EXIT_SUCCESS);  /* We received an EOF*/
 	}
+	else
+	{
+      perror("getline");
+      exit(EXIT_FAILURE);
+    }
+  }
+  return line;
 }
 
 /**
@@ -88,7 +64,7 @@ char **_split_line(char *line)
 	tokens = malloc(bufsize * sizeof(char *));
 	if (!tokens)
 	{
-		printf("Error\n");
+		_puts("Error\n");
 		free(tokens);
 		exit(EXIT_FAILURE);
 	}
@@ -106,7 +82,7 @@ char **_split_line(char *line)
 			
 			if (!tokens)
 			{
-				printf("Error\n");
+				perror("Error\n");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -164,7 +140,7 @@ int _launch(char **args)
 
 	if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(args[0], args, environ) == -1)
 			perror("launch");
 		exit(EXIT_FAILURE);
 	}
