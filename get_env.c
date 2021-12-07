@@ -6,11 +6,12 @@
  */
 int  get_env(void)
 {
-	int count = 0;
+	unsigned int count = 0;
 
 	while (environ[count] != NULL)
 	{
-		printf("%s\n", environ[count]);
+		write(STDOUT_FILENO, environ[count], _strlen(environ[count]));
+		write(STDOUT_FILENO, "\n", 1);
 		count++;
 	}
 	return (0);

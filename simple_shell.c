@@ -40,7 +40,6 @@ char *_read_line(void)
 	}
 	while (1)
 	{
-		/* Read a character*/
 		c = _getchar();
 		if (c == EOF)
 		{
@@ -118,7 +117,6 @@ char **_split_line(char *line)
  */
 int _execute(char **args)
 {
-	int i;
 	struct stat st;
 
 	if (args[0] == NULL)

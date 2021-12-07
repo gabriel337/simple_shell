@@ -29,4 +29,5 @@ int _putchar(char c);
 int _strcmp(char *s1, char *s2);
 void _puts(char *str);
 int _getchar(void);
+int _strlen(char *s);
 #endif
