@@ -28,7 +28,7 @@ int main(void)
  */
 char *_read_line(void)
 {
-	int bufsize = 100;
+	int bufsize = 1024;
 	int position = 0;
 	char *buffer = malloc(sizeof(char) * bufsize);
 	int c;
@@ -43,13 +43,12 @@ char *_read_line(void)
 		c = _getchar();
 		if (c == EOF)
 		{
-			_puts("logout successful");
 			_putchar('\n');
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
 		/*exit program if "exit" is inputed*/
-		else if (_strcmp(buffer, "exit") == 0)
+		else if (_exit_strcmp(buffer) == 0)
 		{
 			free(buffer);
 			exit(EXIT_SUCCESS);
@@ -149,7 +148,7 @@ int _execute(char **args)
 	return (_launch(args));
 }
 
-/**
+/*
  * _launch - launches the command
  * @args: string with commands
  * Return: 1 success
@@ -165,6 +164,7 @@ int _launch(char **args)
 	{
 		if (execve(args[0], args, environ) == -1)
 			perror("launch");
+		free_grid(args);
 		exit(EXIT_FAILURE);
 	}
 

@@ -33,6 +33,7 @@ char *build(char *token, char *value);
 int path_cmd(char **cmd);
 int _putchar(char c);
 int _strcmp(char *s1, char *s2);
+int _exit_strcmp(char *s1);
 void _puts(char *str);
 int _getchar(void);
 int _strlen(char *s);
