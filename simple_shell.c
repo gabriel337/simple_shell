@@ -48,7 +48,13 @@ char *_read_line(void)
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
-		else if (c == '\n')
+		/*exit program if "exit" is inputed*/
+	else if (strcmp(buffer, "exit") == 0)
+	{
+		free(buffer);
+		exit(EXIT_SUCCESS);
+	}
+	else if (c == '\n')
 		{
 			buffer[position] = '\0';
 			return (buffer);
@@ -56,6 +62,8 @@ char *_read_line(void)
 		else
 			buffer[position] = c;
 		position++;
+
+
 		/* If we have exceeded the buffer, reallocate.*/
 		if (position >= bufsize)
 		{
@@ -131,12 +139,6 @@ int _execute(char **args)
 		return (1);
 	}
 
-	/*exit program if "exit" is inputed*/
-	else if (strcmp(args[0], "exit") == 0)
-	{
-		free_grid(args);
-		exit(EXIT_SUCCESS);
-	}
 	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
