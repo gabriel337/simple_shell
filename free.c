@@ -2,8 +2,7 @@
 
 /**
  * free_grid - frees a 2D array
- * @grid: 2d array
- * @height: height of array
+ * @args: arguments
  */
 void free_grid(char **args)
 {
