@@ -64,7 +64,7 @@ char *_read_line(void)
 		position++;
 
 
-		/* If we have exceeded the buffer, reallocate.*/
+		/* If we have exceeded the buffer, reallocate.
 		if (position >= bufsize)
 		{
 			bufsize += 100;
@@ -74,7 +74,7 @@ char *_read_line(void)
 				perror("readline");
 				exit(EXIT_FAILURE);
 			}
-		}
+		}*/
 	}
 }
 
@@ -101,7 +101,7 @@ char **_split_line(char *line)
 		tokens[position] = token;
 		position++;
 
-		/* if need more memory space, then add*/
+		/* if need more memory space, then add
 		if (position >= bufsize)
 		{
 			bufsize += 64;
@@ -112,7 +112,8 @@ char **_split_line(char *line)
 				perror("Error\n");
 				exit(EXIT_FAILURE);
 			}
-		}
+		}*/
+
 		token = strtok(NULL, " ");
 	}
 	tokens[position] = NULL;
