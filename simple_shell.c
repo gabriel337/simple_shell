@@ -46,6 +46,7 @@ char *_read_line(void)
 		{
 			_puts("logout successful");
 			_putchar('\n');
+			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
 		else if (c == '\n')
@@ -127,14 +128,16 @@ int _execute(char **args)
 	else if (strcmp(args[0], "printenv") == 0)
 	{
 		/*function to get environment*/
-		get_env();
+		print_env();
 		return (1);
 	}
 
 	/*exit program if "exit" is inputed*/
 	else if (strcmp(args[0], "exit") == 0)
+	{
+		free_grid(args);
 		exit(EXIT_SUCCESS);
-
+	}
 	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
@@ -167,6 +170,5 @@ int _launch(char **args)
 		perror("launch");
 	else
 		wait(&status);
-
 	return (1);
 }
