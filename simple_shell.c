@@ -49,12 +49,12 @@ char *_read_line(void)
 			exit(EXIT_SUCCESS);
 		}
 		/*exit program if "exit" is inputed*/
-	else if (strcmp(buffer, "exit") == 0)
-	{
-		free(buffer);
-		exit(EXIT_SUCCESS);
-	}
-	else if (c == '\n')
+		else if (_strcmp(buffer, "exit") == 0)
+		{
+			free(buffer);
+			exit(EXIT_SUCCESS);
+		}
+		else if (c == '\n')
 		{
 			buffer[position] = '\0';
 			return (buffer);
@@ -68,7 +68,7 @@ char *_read_line(void)
 		if (position >= bufsize)
 		{
 			bufsize += 100;
-			buffer = realloc(buffer, bufsize);
+			buffer = malloc(sizeof(char) * bufsize);
 			if (!buffer)
 			{
 				perror("readline");
@@ -105,7 +105,7 @@ char **_split_line(char *line)
 		if (position >= bufsize)
 		{
 			bufsize += 64;
-			tokens = realloc(tokens, bufsize * sizeof(char *));
+			tokens = malloc(bufsize * sizeof(char *));
 
 			if (!tokens)
 			{
@@ -132,7 +132,7 @@ int _execute(char **args)
 		return (1);
 
 	/*will stdout environment*/
-	else if (strcmp(args[0], "printenv") == 0)
+	else if (_strcmp(args[0], "printenv") == 0)
 	{
 		/*function to get environment*/
 		print_env();
