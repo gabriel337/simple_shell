@@ -16,9 +16,15 @@ extern char **environ;
 #include <fcntl.h>
 #include <errno.h>
 #include <linux/limits.h>
+#include <dirent.h>
 
 /*prototypes*/
-int get_env(void);
+void free_grid(char **args);
+int print_env(void);
+char *_strncat(char *dest, char *src, int len);
+char *read_dir( struct dirent *s, char *filename, int len, char *file_path);
+char *get_env(char **args);
+char *_strncat(char *dest, char *src, int len);
 char *_read_line(void);
 char **_split_line(char *line);
 int _execute(char **args);
