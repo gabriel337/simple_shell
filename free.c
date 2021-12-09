@@ -6,9 +6,11 @@
  */
 void free_grid(char **args)
 {
-	int i;
+	int i = 0;
 
-	while (!args)
+	while (args[i] != NULL)
+	{
 		free(args[i++]);
+	}
 	free(args);
 }

@@ -16,8 +16,6 @@ int main(void)
 		line = _read_line();
 		args = _split_line(line);
 		status = _execute(args);
-		free(line);
-		free(args);
 	} while (status);
 	return (EXIT_SUCCESS);
 }
@@ -36,6 +34,7 @@ char *_read_line(void)
 	if (!buffer)
 	{
 		perror("readline");
+		free(buffer);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -47,12 +46,7 @@ char *_read_line(void)
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
-		/*exit program if "exit" is inputed*/
-		else if (_exit_strcmp(buffer) == 0)
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
+
 		else if (c == '\n')
 		{
 			buffer[position] = '\0';
@@ -61,19 +55,6 @@ char *_read_line(void)
 		else
 			buffer[position] = c;
 		position++;
-
-
-		/* If we have exceeded the buffer, reallocate.
-		if (position >= bufsize)
-		{
-			bufsize += 100;
-			buffer = malloc(sizeof(char) * bufsize);
-			if (!buffer)
-			{
-				perror("readline");
-				exit(EXIT_FAILURE);
-			}
-		}*/
 	}
 }
 
@@ -84,7 +65,7 @@ char *_read_line(void)
  */
 char **_split_line(char *line)
 {
-	int bufsize = 64, position = 0;
+	int bufsize = 1024, position = 0;
 	char *token;
 	char **tokens;
 
@@ -92,6 +73,7 @@ char **_split_line(char *line)
 	if (!tokens)
 	{
 		_puts("Error\n");
+		free(tokens);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(line, " ");
@@ -99,20 +81,6 @@ char **_split_line(char *line)
 	{
 		tokens[position] = token;
 		position++;
-
-		/* if need more memory space, then add
-		if (position >= bufsize)
-		{
-			bufsize += 64;
-			tokens = malloc(bufsize * sizeof(char *));
-
-			if (!tokens)
-			{
-				perror("Error\n");
-				exit(EXIT_FAILURE);
-			}
-		}*/
-
 		token = strtok(NULL, " ");
 	}
 	tokens[position] = NULL;
@@ -136,19 +104,26 @@ int _execute(char **args)
 	{
 		/*function to get environment*/
 		print_env();
+		free_grid(args);
 		return (1);
 	}
-
+	/*exit program if "exit" is inputed*/
+	else if (_strcmp(*args, "exit") == 0)
+	{
+		free_grid(args);
+		exit(EXIT_SUCCESS);
+	}
 	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
 		perror("execute");
+		free_grid(args);
 		return (1);
 	}
 	return (_launch(args));
 }
 
-/*
+/**
  * _launch - launches the command
  * @args: string with commands
  * Return: 1 success
@@ -164,7 +139,6 @@ int _launch(char **args)
 	{
 		if (execve(args[0], args, environ) == -1)
 			perror("launch");
-		free_grid(args);
 		exit(EXIT_FAILURE);
 	}
 
@@ -172,5 +146,6 @@ int _launch(char **args)
 		perror("launch");
 	else
 		wait(&status);
+	free_grid(args);
 	return (1);
 }
