@@ -51,7 +51,7 @@ Install and Compile
 (your_terminal)$ git clone https://github.com/gabriel337/simple_shell.git
 (your_terminal)$ cd simple_shell
 (your_terminal)$ gcc -Wall -Werror -Wextra -pedantic -Wno-format *.c -o simple_shell
-
+```
 Sample Usage
 ```
 $ /bin/ls
@@ -70,10 +70,11 @@ $ exit
 * More functionality can still be added (e.g. commands without path, handle aliases, pipelines, and redirections)
 
 ### Bugs
-* when running certain commands, the output is giving:
-> free(): invalid pointer
-> Aborted (core dumped)
-
+* when running certain commands, the output is:
+```
+free(): invalid pointer
+Aborted (core dumped)
+```
 ---
 
 ### Authors
