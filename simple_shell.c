@@ -15,7 +15,21 @@ int main(void)
 		_puts("$ ");
 		line = _read_line();
 		args = _split_line(line);
+		if (_strcmp(*args, "exit") == 0)
+		{
+			free(args);
+			free(line);
+			exit(EXIT_SUCCESS);
+		}
+		else if (_strcmp(*args, '\0') == 0)
+				{
+					free(args);
+					free(line);
+					continue;
+				}
 		status = _execute(args);
+		free(line);
+		free(args);
 	} while (status);
 	return (EXIT_SUCCESS);
 }
@@ -97,27 +111,21 @@ int _execute(char **args)
 	struct stat st;
 
 	if (args[0] == NULL)
+	{
 		return (1);
-
+	}
 	/*will stdout environment*/
 	else if (_strcmp(args[0], "env") == 0)
 	{
 		/*function to get environment*/
 		print_env();
-		free_grid(args);
 		return (1);
 	}
-	/*exit program if "exit" is inputed*/
-	else if (_strcmp(*args, "exit") == 0)
-	{
-		free_grid(args);
-		exit(EXIT_SUCCESS);
-	}
+	
 	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
 		perror("execute");
-		free_grid(args);
 		return (1);
 	}
 	return (_launch(args));
@@ -137,8 +145,11 @@ int _launch(char **args)
 
 	if (pid == 0)
 	{
-		if (execve(args[0], args, environ) == -1)
+		if (execve(args[0], args, NULL) == -1)
+		{
 			perror("launch");
+		}
+		free_grid(args);
 		exit(EXIT_FAILURE);
 	}
 
@@ -146,6 +157,5 @@ int _launch(char **args)
 		perror("launch");
 	else
 		wait(&status);
-	free_grid(args);
 	return (1);
 }
