@@ -45,7 +45,7 @@ strings_functions.c ------------------------- holds all the string functions
 print_env.c --------------------------------- prints list of global environment
 free.c -------------------------------------- frees grid
 ```
-## How To Install, Compile, and Use
+### How To Install, Compile, and Use
 Install and Compile
 ```
 (your_terminal)$ git clone https://github.com/gabriel337/simple_shell.git
@@ -78,5 +78,4 @@ Aborted (core dumped)
 ---
 
 ### Authors
-> Jhonathan Rivera
-> Gabriel Lopez
+Jhonathan Rivera & Gabriel Lopez
