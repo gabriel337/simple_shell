@@ -1,16 +1,13 @@
 # 0x16. C - Simple Shell
 
-## Introduction:
+## Simple Shell
+> In this project we developed a simple **UNIX** command interpreter "shell" as part of low-level programming foundation and algorithm-Linux and Unix system programming.
+> A shell is an interactive command-line interpreter. We created a shell that would utilize the command line
+> interface (CLI).
 
-In this project we developed a simple **UNIX** command interpreter "shell" as part of low-level programming foundation and algorithm-Linux and Unix system programming.
+## Requirements
 
-## Description:
-
-A simple **UNIX** command interpreter is a program that reads commands from the standard input or files and executes them in order to display a result.
-
-## Requirements:
-
-### General:
+### General
 
 + Allowed editors: **vi**, **vim**, **emacs**
 + All your files will be compiled on Ubuntu 20.04 LTS using gcc, Using the options **-Wall** **-Werror** **-Wextra** **-pedantic** **-std=gnu89**
@@ -21,3 +18,65 @@ A simple **UNIX** command interpreter is a program that reads commands from the 
 + No more than 5 functions per file
 + All your header files should be include guarded
 + Use system calls only when you need to ([why?](https://www.quora.com/Why-are-system-calls-expensive-in-operating-systems))
+
+
+### Synopsis
+> This repository holds all the code necessary for our custom simple shell to run.
+> Our shell currently handles the executions of executables found in the
+> environmental variable PATH, with their full paths. Sample commands
+> that our shell supports include  ```/bin/ls```, ```/bin/pwd```. We've also created the following builtins.
+
+### Builtins
+* ```exit``` exits shell (```Usage: exit [status]```)
+* ```env``` prints environmental variables (Usage: ```env```)
+
+### Functions and sytems calls used
+```malloc```, ```free```, ```execve```, ```wait```, ```write```, ```exit```
+
+### Description of what each file shows:
+```
+simple_shell.c ------------------------------
+man_1_simple_shell -------------------------- custom manpage for our simple shell
+main.h -------------------------------------- holds prototypes of functions and headers
+```
+```
+Helper files
+```
+strings_functions.c
+print_env.c
+free.c
+```
+## How To Install, Compile, and Use
+Install and Compile
+```
+(your_terminal)$ git clone https://github.com/gabriel337/simple_shell.git
+(your_terminal)$ cd simple_shell
+(your_terminal)$ gcc -Wall -Werror -Wextra -pedantic -Wno-format *.c -o simple_shell
+
+Sample Usage
+```
+$ /bin/ls
+ file1.c  file2.c file3.c
+$ /bin/pwd
+/home/usr/simple_shell
+$ man ./man_1_simple_shell (opens our manpage for more information)
+```
+Stop and return to your original shell
+```
+$ exit
+(your_terminal)$
+```
+
+### To Do
+* More functionality can still be added (e.g. commands without path, handle aliases, pipelines, and redirections)
+
+### Bugs
+* when running certain commands, the output is giving:
+free(): invalid pointer
+Aborted (core dumped)
+
+---
+
+### Authors
+Jhonathan Rivera
+Gabriel Lopez
