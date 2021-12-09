@@ -100,7 +100,7 @@ int _execute(char **args)
 		return (1);
 
 	/*will stdout environment*/
-	else if (_strcmp(args[0], "printenv") == 0)
+	else if (_strcmp(args[0], "env") == 0)
 	{
 		/*function to get environment*/
 		print_env();
