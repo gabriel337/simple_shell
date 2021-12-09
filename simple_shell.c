@@ -8,25 +8,25 @@ int main(void)
 {
 	char *line;
 	char **args;
-	int status;
+	int status = 0;
 
 	do {
-		/*promt*/
+		/*prompt*/
 		_puts("$ ");
 		line = _read_line();
+		if (line[0] == '\0')
+		{
+			free(line);
+			status = 1;
+			continue;
+		}
 		args = _split_line(line);
-		if (_strcmp(*args, "exit") == 0)
+		if (_strcmp(args[0], "exit") == 0)
 		{
 			free(args);
 			free(line);
 			exit(EXIT_SUCCESS);
 		}
-		else if (_strcmp(*args, '\0') == 0)
-				{
-					free(args);
-					free(line);
-					continue;
-				}
 		status = _execute(args);
 		free(line);
 		free(args);
@@ -121,7 +121,7 @@ int _execute(char **args)
 		print_env();
 		return (1);
 	}
-	
+
 	/*if it doesn't recognize command*/
 	else if (stat(*args, &st) == -1)
 	{
@@ -145,7 +145,7 @@ int _launch(char **args)
 
 	if (pid == 0)
 	{
-		if (execve(args[0], args, NULL) == -1)
+		if (execve(args[0], args, environ) == -1)
 		{
 			perror("launch");
 		}
