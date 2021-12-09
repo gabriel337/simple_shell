@@ -39,12 +39,11 @@ simple_shell.c ------------------------------
 man_1_simple_shell -------------------------- custom manpage for our simple shell
 main.h -------------------------------------- holds prototypes of functions and headers
 ```
-```
 Helper files
 ```
-strings_functions.c
-print_env.c
-free.c
+strings_functions.c ------------------------- holds all the string functions
+print_env.c --------------------------------- prints list of global environment
+free.c -------------------------------------- frees grid
 ```
 ## How To Install, Compile, and Use
 Install and Compile
@@ -72,11 +71,11 @@ $ exit
 
 ### Bugs
 * when running certain commands, the output is giving:
-free(): invalid pointer
-Aborted (core dumped)
+> free(): invalid pointer
+> Aborted (core dumped)
 
 ---
 
 ### Authors
-Jhonathan Rivera
-Gabriel Lopez
+> Jhonathan Rivera
+> Gabriel Lopez
