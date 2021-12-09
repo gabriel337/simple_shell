@@ -50,7 +50,7 @@ Install and Compile
 ```
 (your_terminal)$ git clone https://github.com/gabriel337/simple_shell.git
 (your_terminal)$ cd simple_shell
-(your_terminal)$ gcc -Wall -Werror -Wextra -pedantic -Wno-format *.c -o simple_shell
+(your_terminal)$ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o simple_shell
 ```
 Sample Usage
 ```
@@ -63,6 +63,11 @@ $ man ./man_1_simple_shell (opens our manpage for more information)
 Stop and return to your original shell
 ```
 $ exit
+(your_terminal)$
+```
+OR
+```
+$ Ctrl+D
 (your_terminal)$
 ```
 
