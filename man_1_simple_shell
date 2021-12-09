@@ -1,22 +1,90 @@
-.TH SHELL 1 "30 Nov 2021" "1.0" "simple_shell man page"
-
+.TH SIMPLE_SHELL 1 "28 March 2018" "1.0" "custom man page"
 .SH NAME
-simple_shell \- command line interpreter
-
+.B Simple Shell
+- command language interpreter
 .SH SYNOPSIS
-.B ./hsh
-
+.B hsh
 .SH DESCRIPTION
-This program is a simple shell that has been made by the Holberton guidelines. It contains basic features and functions found in other shell programs.
+Simple shell is one version of a command language interpreter that executes commands read from the standard input. It's functionality is limited to certain shell builtin functions found in the environmental variable
+.I PATH.
+It does not yet handle piping, commands without path, redirection, pattern matching, variable expansions, and more extra functions.
+.SS Invocation
+An
+.I interactive
+simple shell can be invoked by typing ./hsh. Meanwhile, a
+.I non-interactive
+simple shell can also be invoked via a pipe (e.g. echo "/bin/ls" | ./hsh).
+.SS Command Execution
+After a command has been split into words, if it results in a simple command and an optional list of arguments, the following actions are taken.
+.sp
+If the command name contains slashes, the shell attempts to locate it. If there exists a shell function by that name, that function is invoked. If the name does not match a function, it will output an "Error: File or description not found.
+.SS Sample Functions
+.sp
+/bin/ls
+.I [[flags]...[arguments]]
+      lists files in the current directory according to the flags given by user
+.sp
+/bin/pwd
+      prints working directories
+.SS Shell Builtin Commands
+.sp
+env
+      prints environmental variables
+.sp
+exit
+      exits out of simple shell and returns to user's original shell
+.SH EXAMPLE
+To
+.I invoke
+simple shell:
+.sp
+.RS
+(your_terminal)$ ./hsh
+.RE
+.RS
+.I $
+.RE
+.sp
+Sample Usage:
+.sp
+.RS
+.RE
+.RE
+.RS
+.I $
+/bin/ls /tmp
+.RE
+.RE
+.RS
+.I file1, file2, file3
+.RE
+.sp
+To leave simple shell and return to your terminal:
+.sp
+.RS
+.I $
+exit
+.RE
+.RS
+(your_terminal)$
 
-.SH OPTIONS
-Waiting on entry
+OR
 
-.SH SEE ALSO
-Waiting on entry
-
+.RE
+.RS
+.I $
+Ctrl+D
+.RE
+.RS
+(your_terminal)$
+.RE
 .SH BUGS
-No known bugs.
-
-.SH AUTHOR
-Jhonathan Rivera Cruz, Gabriel Lopez Ruiz
+Commands inputed with an - [option], outputs:
+.RE
+.I free(): invalid pointer
+.RE
+.I Aborted (core dumped)
+.SH SEE ALSO
+.I bash(1), sh(1)
+.SH AUTHORS
+Jhonatan Rivera & Gabriel Lopez
