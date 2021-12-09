@@ -35,7 +35,7 @@
 
 ### Description of what each file shows:
 ```
-simple_shell.c ------------------------------
+simple_shell.c ------------------------------ this file reads the line, splits it in tokens, executes and launches the commands given
 man_1_simple_shell -------------------------- custom manpage for our simple shell
 main.h -------------------------------------- holds prototypes of functions and headers
 ```
