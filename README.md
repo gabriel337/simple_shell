@@ -83,4 +83,4 @@ Aborted (core dumped)
 ---
 
 ### Authors
-Jhonathan Rivera & Gabriel Lopez
+Jhonatan Rivera & Gabriel Lopez
