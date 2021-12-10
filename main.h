@@ -17,6 +17,8 @@ extern char **environ;
 #include <errno.h>
 #include <linux/limits.h>
 #include <dirent.h>
+#include <stdarg.h>
+
 
 /*prototypes*/
 
@@ -38,4 +40,29 @@ int _strcmp(char *s1, char *s2);
 void _puts(char *str);
 int _getchar(void);
 int _strlen(char *s);
+
+
+/*printf*/
+
+int _printf(const char *format, ...);
+int get_print(char c, va_list *vl);
+
+int print_string(char *);
+int print_int(int);
+
+int accInt(va_list *);
+int accString(va_list *);
+int accChar(va_list *);
+int accPercent(va_list *vl);
+/**
+ * struct flag - flag object
+ * @letter: flag char
+ * @print: print pointer
+ */
+
+typedef struct flag
+{
+	char letter;
+	int (*print)(va_list *);
+} find_flag;
 #endif

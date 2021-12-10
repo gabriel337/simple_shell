@@ -2,34 +2,47 @@
 
 /**
  * main - Entry point
- * Return: Success
+ * @argc: arguments count
+ * @argv: agruments value
+ * Return: returns success
  */
-int main(void)
+int main(__attribute__((unused))int argc, char **argv)
 {
 	char *line;
-	char **args;
 	int status = 0;
+	int i = 1;
+	struct stat st;
+	char *prog_name = argv[0];
 
 	do {
 		/*prompt*/
 		_puts("$ ");
 		line = _read_line();
-		if (line[0] == '\0')
+		if (_strcmp(line, "exit") == 0)
+		{
+			free(line);
+			exit(EXIT_SUCCESS);
+		}
+		else if (line[0] == '\0')
 		{
 			free(line);
 			status = 1;
 			continue;
 		}
-		args = _split_line(line);
-		if (_strcmp(args[0], "exit") == 0)
+		argv = _split_line(line);
+		if (stat(line, &st) == -1)
 		{
-			free(args);
+			_printf("%s : %i : %s : not found\n", prog_name, i, line);
+			status = 1;
+			i++;
 			free(line);
-			exit(EXIT_SUCCESS);
+			free(argv);
+			continue;
 		}
-		status = _execute(args);
+		status = _execute(argv);
+		i++;
 		free(line);
-		free(args);
+		free(argv);
 	} while (status);
 	return (EXIT_SUCCESS);
 }
@@ -108,7 +121,6 @@ char **_split_line(char *line)
  */
 int _execute(char **args)
 {
-	struct stat st;
 
 	if (args[0] == NULL)
 	{
@@ -123,11 +135,6 @@ int _execute(char **args)
 	}
 
 	/*if it doesn't recognize command*/
-	else if (stat(*args, &st) == -1)
-	{
-		perror("execute");
-		return (1);
-	}
 	return (_launch(args));
 }
 
