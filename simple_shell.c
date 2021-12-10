@@ -16,7 +16,6 @@ int main(__attribute__((unused))int argc, char **argv)
 
 	do {
 		/*prompt*/
-		_puts("$ ");
 		line = _read_line();
 		if (_strcmp(line, "exit") == 0)
 		{
