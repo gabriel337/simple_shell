@@ -26,7 +26,6 @@ extern char **environ;
 void free_grid(char **args);
 
 /*print function*/
-int print_env(void);
 
 /*simple shell*/
 char *_read_line(void);
@@ -40,7 +39,11 @@ int _strcmp(char *s1, char *s2);
 void _puts(char *str);
 int _getchar(void);
 int _strlen(char *s);
+char *_strcat(char *dest, char *src);
 
+/*path*/
+
+char **get_path(char *tokens);
 
 /*printf*/
 

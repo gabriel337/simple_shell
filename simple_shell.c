@@ -29,16 +29,22 @@ int main(__attribute__((unused))int argc, char **argv)
 			continue;
 		}
 		argv = _split_line(line);
-		if (stat(line, &st) == -1)
+
+		if (stat(argv[0], &st) == -1)
 		{
-			_printf("%s : %i : %s : not found\n", prog_name, i, line);
-			status = 1;
-			i++;
-			free(line);
-			free(argv);
-			continue;
+			/*argv = get_path(argv[0]);*/
+			
+			
+
+				_printf("%s: %i: %s: not found\n", prog_name, i, line);
+				status = 1;
+				i++;
+				free(line);
+				free(argv);
+				continue;
+			
 		}
-		status = _execute(argv);
+		status = _launch(argv);
 		i++;
 		free(line);
 		free(argv);
@@ -68,7 +74,6 @@ char *_read_line(void)
 		c = _getchar();
 		if (c == EOF)
 		{
-			_putchar('\n');
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
@@ -111,31 +116,32 @@ char **_split_line(char *line)
 	}
 	tokens[position] = NULL;
 	return (tokens);
+
 }
 
 /**
  * _execute - checks for errors before launching the command
  * @args: string with commands
  * Return: 1 if launch was success
- */
-int _execute(char **args)
-{
 
-	if (args[0] == NULL)
-	{
-		return (1);
-	}
-	/*will stdout environment*/
-	else if (_strcmp(args[0], "env") == 0)
-	{
-		/*function to get environment*/
-		print_env();
-		return (1);
-	}
+ int _execute(char **args)
+ {
 
-	/*if it doesn't recognize command*/
-	return (_launch(args));
-}
+ if (args[0] == NULL)
+ {
+ return (1);
+ }
+ will stdout environment
+ else if (_strcmp(args[0], "env") == 0)
+ {
+ function to get environment
+ print_env();
+ return (1);
+ }
+
+ if it doesn't recognize command
+ return (_launch(args));
+ }*/
 
 /**
  * _launch - launches the command
