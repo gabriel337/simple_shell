@@ -26,6 +26,7 @@ extern char **environ;
 void free_grid(char **args);
 
 /*print function*/
+int print_env(void);
 
 /*simple shell*/
 char *_read_line(void);

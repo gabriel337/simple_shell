@@ -17,7 +17,16 @@ int main(__attribute__((unused))int argc, char **argv)
 	do {
 		/*prompt*/
 		line = _read_line();
-		if (_strcmp(line, "exit") == 0)
+		
+		if (_strcmp(line, "env") == 0)
+		{
+			print_env();
+			status = 1;
+			free(line);
+			continue;
+		}
+
+		else if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
 			exit(EXIT_SUCCESS);
@@ -33,16 +42,16 @@ int main(__attribute__((unused))int argc, char **argv)
 		if (stat(argv[0], &st) == -1)
 		{
 			/*argv = get_path(argv[0]);*/
-			
-			
 
-				_printf("%s: %i: %s: not found\n", prog_name, i, line);
-				status = 1;
-				i++;
-				free(line);
-				free(argv);
-				continue;
-			
+
+
+			_printf("%s: %i: %s: not found\n", prog_name, i, line);
+			status = 1;
+			i++;
+			free(line);
+			free(argv);
+			continue;
+
 		}
 		status = _launch(argv);
 		i++;
@@ -132,13 +141,6 @@ char **_split_line(char *line)
  return (1);
  }
  will stdout environment
- else if (_strcmp(args[0], "env") == 0)
- {
- function to get environment
- print_env();
- return (1);
- }
-
  if it doesn't recognize command
  return (_launch(args));
  }*/
